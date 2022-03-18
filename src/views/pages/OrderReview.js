@@ -92,14 +92,14 @@ const OrderReviewStyled = styled.div`
     }
     .card {
       width: 20%;
-
       min-height: 100vh;
-      button {
-        margin-bottom: 20px;
-      }
+
       @media (max-width: 700px) {
+        position: fixed;
+        bottom: 20px;
         width: 100%;
         min-height: 10vh;
+        background-color: white;
       }
     }
   }
