@@ -21,7 +21,9 @@ const Shop = () => {
   // const [products, setProducts] = useProducts();
 
   useEffect(() => {
-    fetch(`http://localhost:4000/products?page=${page}&&size=${size}`)
+    fetch(
+      `https://immense-harbor-60117.herokuapp.com/products?page=${page}&&size=${size}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setProducts(data.products);
