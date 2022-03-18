@@ -1,10 +1,20 @@
-import styled from "styled-components";
-import React from "react";
 import Rating from "@mui/material/Rating";
+import React from "react";
+import styled from "styled-components";
 
 const Product = ({ product, handleAddToCart, handleRemove }) => {
-  const { key, name, img, stock, seller, price, star, features, quantity } =
-    product;
+  const {
+    _id,
+    key,
+    name,
+    img,
+    stock,
+    seller,
+    price,
+    star,
+    features,
+    quantity,
+  } = product;
 
   return (
     <ProductStyled>
@@ -75,6 +85,12 @@ const ProductStyled = styled.div`
     }
     .info {
       width: 60%;
+      @media (max-width: 700px) {
+        width: 100%;
+        h3 {
+          text-align: justify;
+        }
+      }
     }
     .left {
       margin-left: 20px;
@@ -90,6 +106,9 @@ const ProductStyled = styled.div`
       align-items: center;
       justify-content: space-between;
       margin-left: 40px;
+      @media (max-width: 700px) {
+        margin-left: 0px;
+      }
       .features {
         margin-top: 20px;
         width: 40%;

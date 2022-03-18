@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAuth from "../../hooks/useAuth";
 import logo from "../../assets/img/logo2.png";
-
+import useAuth from "../../hooks/useAuth";
 import "./Login.css";
 
 const Register = () => {

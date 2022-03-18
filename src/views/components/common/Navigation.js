@@ -1,15 +1,23 @@
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import logo from "../../../assets/img/logo.png";
 import useAuth from "../../../hooks/useAuth";
 import useCart from "../../../hooks/useCart";
 import useProducts from "../../../hooks/useProducts";
-import logo from "../../../assets/img/logo.png";
 
 const Navigation = ({ setSize, cart, products, setDisplayProducts }) => {
   const { user, logOut } = useAuth();
+
+  let total = 0;
+  let totalQuantity = 0;
+  for (const product of cart) {
+    product.quantity = !product.quantity ? 1 : product.quantity;
+    total = total + product.price * product.quantity;
+    totalQuantity = totalQuantity + product.quantity;
+  }
 
   const [product] = useProducts();
   const handleSearch = (e) => {
@@ -51,10 +59,12 @@ const Navigation = ({ setSize, cart, products, setDisplayProducts }) => {
               </span>
             </div>
           </Link>
-          <div className="header_option">
-            <span className="header_optionLineOne">Returns</span>
-            <span className="header_optionLineTwo">& Orders</span>
-          </div>
+          <Link to="/orderedList">
+            <div className="header_option">
+              <span className="header_optionLineOne">Returns</span>
+              <span className="header_optionLineTwo">& Orders</span>
+            </div>
+          </Link>
           <div className="header_option">
             <span className="header_optionLineOne">Your</span>
             <span className="header_optionLineTwo">Prime</span>
@@ -63,7 +73,7 @@ const Navigation = ({ setSize, cart, products, setDisplayProducts }) => {
             <div className="header_optionBasket">
               <ShoppingBasketIcon />
               <span className="header_optionLineTwo header_basketCount">
-                {cart?.length}
+                {totalQuantity}
               </span>
             </div>
           </Link>
@@ -79,7 +89,8 @@ const NavigationStyled = styled.div`
     display: flex;
     align-items: center;
     background-color: #131921;
-    position: sticky;
+    position: fixed;
+    width: 100%;
     top: 0;
     z-index: 100;
     @media (max-width: 700px) {

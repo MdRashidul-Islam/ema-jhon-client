@@ -23,7 +23,7 @@ export const GlobalStyle = createGlobalStyle`
 }
 }
 body{
-/* overflow: hidden; */
+overflow-x: hidden;
 font-family: 'Poppins', sans-serif;
   a{
     color:black;

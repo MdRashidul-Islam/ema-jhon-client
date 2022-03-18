@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import Toast from "sweetalert2";
 import useCart from "../../../hooks/useCart";
-import useProducts from "../../../hooks/useProducts";
-import { addToDb, getStoredCart } from "../../../utilities/fakedb";
+import { addToDb } from "../../../utilities/fakedb";
 import Cart from "../common/Cart";
 import Header from "../common/Header";
 import Spinner from "../custom/Spinner";
-import Toast from "sweetalert2";
-
 import Product from "./Product";
 
 const Shop = () => {
@@ -23,7 +21,6 @@ const Shop = () => {
   // const [products, setProducts] = useProducts();
 
   useEffect(() => {
-    console.log(size);
     fetch(`http://localhost:4000/products?page=${page}&&size=${size}`)
       .then((res) => res.json())
       .then((data) => {
@@ -35,11 +32,13 @@ const Shop = () => {
       });
   }, [page]);
 
+  //add to shopping cart
   const handleAddToCart = (product) => {
-    const exists = cart.find((pd) => pd.key === product.key);
+    const exists = cart.find((pd) => pd._id === product._id);
+
     let newCart = [];
     if (exists) {
-      const rest = cart.filter((pd) => pd.key !== product.key);
+      const rest = cart.filter((pd) => pd._id !== product._id);
       exists.quantity = exists.quantity + 1;
       newCart = [...rest, product];
     } else {
@@ -50,30 +49,15 @@ const Shop = () => {
       icon: "success",
       title: "Product Added Successfully",
       toast: true,
-      position: "top-end",
+      position: "bottom-end",
       showConfirmButton: false,
       timer: 1000,
       timerProgressBar: true,
     });
     setCart(newCart);
+
     addToDb(product.key);
   };
-
-  // useEffect(() => {
-  //   if (products.length) {
-  //     const savedCart = getStoredCart();
-  //     const storedCart = [];
-  //     for (const key in savedCart) {
-  //       const selectedProduct = products.find((product) => product.key === key);
-  //       if (selectedProduct) {
-  //         const quantity = savedCart[key];
-  //         selectedProduct.quantity = quantity;
-  //         storedCart.push(selectedProduct);
-  //       }
-  //     }
-  //     setCart(storedCart);
-  //   }
-  // }, [products]);
 
   return (
     <ShopStyled>
@@ -100,13 +84,6 @@ const Shop = () => {
             )}
           </div>
           <div className="pagination">
-            {/* <Pagination
-                onClick={() => {
-                  pageCount.map((number) => setPage(number));
-                }}
-                count={pageCount}
-                color="primary"
-              /> */}
             {[...Array(pageCount).keys()].map((number) => (
               <button
                 className={number === page ? "selected" : " "}

@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import Navigation from "../components/common/Navigation";
-import styled from "styled-components";
-import useProducts from "../../hooks/useProducts";
-import useCart from "../../hooks/useCart";
-import Cart from "../components/common/Cart";
-import Product from "../components/Shop/Product";
-import { clearTheCart, removeFromDb } from "../../utilities/fakedb";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "../components/common/Header";
+import styled from "styled-components";
 import Toast from "sweetalert2";
+import useCart from "../../hooks/useCart";
+import useProducts from "../../hooks/useProducts";
+import { removeFromDb } from "../../utilities/fakedb";
+import Cart from "../components/common/Cart";
+import Navigation from "../components/common/Navigation";
+import Product from "../components/Shop/Product";
 
 const OrderReview = () => {
   const [product] = useProducts();
@@ -31,11 +30,6 @@ const OrderReview = () => {
     });
   };
 
-  const handleShipping = () => {
-    navigate("/shipping");
-    // clearTheCart();
-  };
-
   return (
     <OrderReviewStyled>
       <Navigation cart={cart} setCart={setCart} products={product} />
@@ -46,7 +40,7 @@ const OrderReview = () => {
             {cart.length
               ? cart?.map((product) => (
                   <Product
-                    key={product.key}
+                    key={product._id}
                     product={product}
                     handleRemove={handleRemove}
                   ></Product>
@@ -56,7 +50,9 @@ const OrderReview = () => {
         </div>
         <div className="card">
           <Cart cart={cart}>
-            <button onClick={handleShipping}>Shipping</button>
+            <Link to="/checkout">
+              <button>CheckOut</button>
+            </Link>
           </Cart>
         </div>
       </div>
@@ -86,8 +82,9 @@ const OrderReviewStyled = styled.div`
       }
 
       .products {
+        margin-top: 60px;
         overflow-y: scroll;
-        height: 520px;
+        height: 90vh;
         @media (max-width: 700px) {
           height: 580px;
         }
@@ -97,6 +94,9 @@ const OrderReviewStyled = styled.div`
       width: 20%;
 
       min-height: 100vh;
+      button {
+        margin-bottom: 20px;
+      }
       @media (max-width: 700px) {
         width: 100%;
         min-height: 10vh;

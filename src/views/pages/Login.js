@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import useCart from "../../hooks/useCart";
-import useProducts from "../../hooks/useProducts";
-import Header from "../components/common/Header";
-import "./Login.css";
 import logo from "../../assets/img/logo2.png";
+import useAuth from "../../hooks/useAuth";
+import "./Login.css";
 
 const Login = () => {
   const { signWithEmail, googleSignIn } = useAuth();
